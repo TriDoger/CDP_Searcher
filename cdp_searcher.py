@@ -1,42 +1,38 @@
+import argparse
 import ipaddress
 import re
-import argparse
-import pathlib
+
+#Проверка мака при помощи регулярок
+#Поддерживает форматы записи '01-23-45-67-89-AB' '01:23:45:67:89:AB'
+#0123.4567.89AB не зависит от регистра
+def check_mac(mac, regex="^([0-9A-Fa-f]{2}[:-])" +
+                         "{5}([0-9A-Fa-f]{2})|" +
+                         "([0-9a-fA-F]{4}\\." +
+                         "[0-9a-fA-F]{4}\\." +
+                         "[0-9a-fA-F]{4})$"):
+    if re.search(re.compile(regex), mac):
+        return mac
+    else:
+        raise TypeError("Мак указан некоректно")
 
 
-#Тест проверка мака при помощи регулярок
-#Можете подать свою регулярку если есть такое желание
-def check_mac(mac, regex ="^([0-9A-Fa-f]{2}[:-])" +
-             "{5}([0-9A-Fa-f]{2})|" +
-             "([0-9a-fA-F]{4}\\." +
-             "[0-9a-fA-F]{4}\\." +
-             "[0-9a-fA-F]{4})$"):
-     if re.search(re.compile(regex),mac):
-         return mac
-     else: raise TypeError("Мак указан некоректно")
 
-macs=['01-23-45-67-89-AB','01:23:45:67:89:AB','0123.4567.89AB','01-23-45-67-89-AH','0123456789ab']
-
-def format_mac(mac,regex=r'[ .|:|-]'):
-    str=''
+#Форматирование mac под формат сisco
+#Можно подать свою регулярку для парсинга мака
+def format_mac(mac, regex=r'[ .|:|-]'):
+    str = ''
     if check_mac(mac):
-        spl_mac=re.split(regex, mac.lower())
+        spl_mac = re.split(regex, mac.lower())
         for oktet in spl_mac:
             str = str + oktet
-            if len(oktet)==4 and len(str)!=14:
-                str=str+'.'
-            elif (len(str)==4 or len(str)==9) and len(str)!=14:
-                str=str+'.'
+            if len(oktet) == 4 and len(str) != 14:
+                str = str + '.'
+            elif (len(str) == 4 or len(str) == 9) and len(str) != 14:
+                str = str + '.'
     return str
 
-# for mac in macs:
-#     print (format_mac(mac))
 
-# for mac in macs:
-#     print (check_mac(mac))
-
-#Тест аргпарса
-
+#Получаем данные с ввода
 parser=argparse.ArgumentParser(description='''Добавить какое-то умное описание''')
 
 source_group=parser.add_mutually_exclusive_group(required=True)
@@ -55,10 +51,17 @@ args=parser.parse_args()
 
 print(args.dest_mac)
 print(args.source_ip)
-#Тест проверок IP
+
+username=''
+password=''
+err_ip=0
+
+
+#Основаная проверка ip возвращает в любом случае список
 def check_ip(*args):
     return [ip for ip in args if check_ipaddress(ip)]
 
+#Дефолтная проверка ip
 def check_ipaddress(ip):
     try:
        ipaddress.ip_address(ip)
@@ -67,28 +70,8 @@ def check_ipaddress(ip):
     else:
         return True
 
-# ips='1.1.1.1'
-# print(check_ip(ips))
 
-macs=['01-23-45-67-89-AB','01:23:45:67:89:AB','0123.4567.89AB','01-23-45-67-89-AH','0123456789ab']
-
-def format_mac(mac,regex=r'[ .|:|-]'):
-    str=''
-    if check_mac(mac):
-        spl_mac=re.split(regex, mac.lower())
-        for oktet in spl_mac:
-            str = str + oktet
-            if len(oktet)==4 and len(str)!=14:
-                str=str+'.'
-            elif (len(str)==4 or len(str)==9) and len(str)!=14:
-                str=str+'.'
-    return str
-
-# for mac in macs:
-#     print (format_mac(mac))
-
-username='someuser'
-password='supapassword'
+#Функция для создание хэндлеров
 def form_handler(host,device_type='cisco_ios',username=username,password=password,port=22):\
     return  {
     'device_type': device_type,
@@ -97,7 +80,8 @@ def form_handler(host,device_type='cisco_ios',username=username,password=passwor
     'password': password,
     'port': port,
 }
-#print(form_handler('192.168.22.33'))
+
+#Просто чтение строк из файла
 def read_file(filename):
     try:
         with open(filename) as f:
@@ -105,8 +89,22 @@ def read_file(filename):
     except FileNotFoundError:
         raise ValueError("Файл не найден")
 
+# if bool(check_ip(source_addres)):
+#     print("Omogus")
+# else:
+#     print("betray")
+#
+# username=input('Username: ')
+# password=getpass.getpass()
 
-#print(read_file('notest.txt'))
+
+
+
+
+
+
+
+
 
 
 
