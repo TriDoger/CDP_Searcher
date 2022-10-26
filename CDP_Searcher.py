@@ -40,6 +40,8 @@ def check_ipaddress(ip):
         return True
 
 #Проверка мака при помощи регулярок
+#Поддерживает форматы записи '01-23-45-67-89-AB' '01:23:45:67:89:AB'
+#0123.4567.89AB не зависит от регистра
 def check_mac(mac):
     regex = ("^([0-9A-Fa-f]{2}[:-])" +
              "{5}([0-9A-Fa-f]{2})|" +
@@ -48,3 +50,20 @@ def check_mac(mac):
              "[0-9a-fA-F]{4})$")
     p = re.compile(regex)
     return (True if re.search(p,mac) else False)
+
+#Форматирование mac под формат сisco
+#Можно подать свою регулярку для парсинга мака
+def format_mac(mac,regex=r'[ .|:|-]'):
+    str=''
+    if check_mac(mac):
+        spl_mac=re.split(regex, mac.lower())
+        for oktet in spl_mac:
+            str = str + oktet
+            if len(oktet)==4 and len(str)!=14:
+                str=str+'.'
+            elif (len(str)==4 or len(str)==9) and len(str)!=14:
+                str=str+'.'
+    return str
+
+
+
