@@ -2,7 +2,12 @@ import ipaddress
 import re
 import argparse
 import pathlib
-
+import getpass
+from netmiko import (
+    ConnectHandler,
+    NetmikoTimeoutException,
+    NetmikoAuthenticationException,
+)
 
 #Тест проверка мака при помощи регулярок
 #Можете подать свою регулярку если есть такое желание
@@ -37,24 +42,24 @@ def format_mac(mac,regex=r'[ .|:|-]'):
 
 #Тест аргпарса
 
-parser=argparse.ArgumentParser(description='''Добавить какое-то умное описание''')
-
-source_group=parser.add_mutually_exclusive_group(required=True)
-source_group.add_argument('-si', dest='source_ip' ,action="store", default = '', type=ipaddress.ip_address, help='''Ip где искать''')
-source_group.add_argument('-f',dest='source_file', action="store",
-                          type=argparse.FileType('r', encoding='latin-1'), help='''Путь к файлу с Ip-шниками где искать, ''')
-
-dest_group=parser.add_mutually_exclusive_group(required=True)
-dest_group.add_argument('-di', dest='dest_ip' ,action="store", default = '', help='''Ip что нужно искать''')
-dest_group.add_argument('-m',dest='dest_mac', action="store", default = '',type=format_mac, help='''Mac что нужно искать''')
-
-parser.add_argument('-hp', action="store", dest = "hops", default = 10, type=int, help = '''Установка максимального 
-количества редиректов, для страхование и избегания зацикливаний, по умолчанию 10''')
-
-args=parser.parse_args()
-
-print(args.dest_mac)
-print(args.source_ip)
+# parser=argparse.ArgumentParser(description='''Добавить какое-то умное описание''')
+#
+# source_group=parser.add_mutually_exclusive_group(required=True)
+# source_group.add_argument('-si', dest='source_ip' ,action="store", default = '', type=ipaddress.ip_address, help='''Ip где искать''')
+# source_group.add_argument('-f',dest='source_file', action="store",
+#                           type=argparse.FileType('r', encoding='latin-1'), help='''Путь к файлу с Ip-шниками где искать, ''')
+#
+# dest_group=parser.add_mutually_exclusive_group(required=True)
+# dest_group.add_argument('-di', dest='dest_ip' ,action="store", default = '', help='''Ip что нужно искать''')
+# dest_group.add_argument('-m',dest='dest_mac', action="store", default = '',type=format_mac, help='''Mac что нужно искать''')
+#
+# parser.add_argument('-hp', action="store", dest = "hops", default = 10, type=int, help = '''Установка максимального
+# количества редиректов, для страхование и избегания зацикливаний, по умолчанию 10''')
+#
+# args=parser.parse_args()
+#
+# print(args.dest_mac)
+# print(args.source_ip)
 #Тест проверок IP
 def check_ip(*args):
     return [ip for ip in args if check_ipaddress(ip)]
@@ -109,4 +114,18 @@ def read_file(filename):
 #print(read_file('notest.txt'))
 
 
+#handler=form_handler()
+#result={}
+# try:
+#     with ConnectHandler(**handler) as ssh:
+#         ssh.enable()
+#         output = ssh.send_command('sh arp')
+#         result['sh arp'] = output
+#         print(result)
+# except (NetmikoTimeoutException, NetmikoAuthenticationException) as error:
+#     print(error)
+
+ERRORS_OUTPUT=['Invalid input detected at ''^'' marker.']
+
+print(ERRORS_OUTPUT)
 
