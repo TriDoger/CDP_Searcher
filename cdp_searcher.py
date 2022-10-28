@@ -128,7 +128,7 @@ def check_error_output(answer, errors=ERRORS_OUTPUT): #TODO добавить э�
             return True
     return False
 
-#Отправляет команды на оборудование и возвращает их в словаре
+#Отправляет команды на оборудование и возвращает их в словаре пока возможно не будет использоваться
 def send_show_command(device, commands):
     result = {}
     try:
@@ -138,13 +138,17 @@ def send_show_command(device, commands):
                 output = ssh.send_command(command)
                 result[command] = output
         return result
-    except (NetmikoTimeoutException, NetmikoAuthenticationException) as error:
-        print(error)
+    except NetmikoTimeoutException:
+        raise NetmikoTimeoutException('Что-то пошло не так, таймаут прошел')
+    except NetmikoAuthenticationException:
+        print('Пробуем ещё раз')
+
+
 
 
 print(send_show_command(form_handler('172.18.226.3',username=input('Username: '),password=getpass.getpass()),['sh macaddress-table']))
 
-def first_step
+
 
 
 
