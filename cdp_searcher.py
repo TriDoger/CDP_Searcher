@@ -142,6 +142,7 @@ def send_show_command(device, commands):
         raise NetmikoTimeoutException('Что-то пошло не так, таймаут прошел')
     except NetmikoAuthenticationException:
         print('Пробуем ещё раз')
+        send_show_command(device, commands)
 
 
 

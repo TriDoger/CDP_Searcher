@@ -1,0 +1,41 @@
+440 permit ip host 172.16.82.9 host 172.18.172.99
+    450 permit tcp host 172.16.82.9 host 172.18.9.32
+    460 permit ip host 172.16.82.8 host 172.16.6.165
+    470 permit ip host 172.16.82.9 host 172.16.6.165
+    480 permit ip host 172.16.82.8 host 172.16.7.94
+    490 permit ip host 172.16.82.9 host 172.16.7.94
+    500 permit ip host 172.16.82.8 host 172.16.4.99
+    510 permit ip host 172.16.82.8 host 172.16.4.14
+    520 permit ip host 172.16.82.9 host 172.16.4.14
+    530 permit ip host 172.16.82.9 host 172.16.6.154
+    540 permit ip host 172.16.82.8 host 172.16.6.154
+    550 permit ip host 172.16.82.9 host 172.16.4.240
+    560 permit ip host 172.16.82.8 host 172.16.4.240
+    570 permit ip host 172.16.82.9 host 172.18.9.249
+    580 permit ip host 172.16.82.8 host 172.18.9.249
+    590 permit ip host 172.16.82.8 host 172.18.10.154
+    600 permit ip host 172.16.82.9 host 172.18.10.154
+    610 permit ip host 172.16.82.9 host 172.16.7.56
+    620 permit ip host 172.16.82.8 host 172.16.7.56
+    630 permit ip host 172.16.82.9 host 172.17.10.67
+    640 permit ip host 172.16.82.9 host 172.18.72.169
+    650 permit ip host 172.16.82.8 host 172.17.10.67
+    660 permit ip host 172.16.82.8 host 172.18.72.169
+    670 permit tcp host 172.16.82.9 host 172.18.128.54
+    680 permit tcp host 172.16.82.9 host 172.18.177.102
+    690 permit tcp host 172.16.82.9 host 172.18.144.123
+    700 permit tcp host 172.16.82.9 host 172.18.145.139
+    710 permit tcp host 172.16.82.10 eq 443 host 172.16.6.165 established
+    720 permit tcp host 172.16.82.10 eq 443 host 172.16.4.14 established
+    730 permit tcp host 172.16.82.10 eq 443 host 172.16.4.49 established
+    740 permit tcp host 172.16.82.10 eq 443 host 172.16.4.240 established
+    750 permit tcp host 172.16.82.10 eq 443 host 172.16.7.162 established
+    760 permit tcp host 172.16.82.10 eq 443 host 172.16.7.174 established
+    770 permit tcp host 172.16.82.10 eq 443 host 172.16.5.112 established
+    780 permit tcp host 172.16.82.10 eq 443 172.20.192.128 0.0.0.127 established
+    790 permit tcp host 172.16.82.10 eq 443 10.128.102.0 0.0.0.255 established
+    800 permit tcp host 172.16.82.10 eq 443 host 10.159.154.39 established
+    810 permit tcp host 172.16.82.10 eq 443 host 10.159.154.46 established
+    820 permit tcp host 172.16.82.10 eq 443 host 10.159.154.54 established
+    830 permit ip host 172.16.82.11 any 
+    840 deny ip any any 

@@ -125,7 +125,20 @@ def read_file(filename):
 # except (NetmikoTimeoutException, NetmikoAuthenticationException) as error:
 #     print(error)
 
-ERRORS_OUTPUT=['Invalid input detected at ''^'' marker.']
+#ERRORS_OUTPUT=['Invalid input detected at ''^'' marker.']
 
-print(ERRORS_OUTPUT)
+#print(ERRORS_OUTPUT)
 
+
+#print(read_file('acl.txt'))
+#Просто рисует acl со смещением
+def displace_ACL(acl,bias):
+  for line_acl in acl:
+      temp=line_acl.split()
+      print('no '+line_acl)
+      temp[0]=str(int(temp[0])+bias)
+      print(' '.join(temp))
+
+
+
+displace_ACL(read_file('acl.txt'),30)
